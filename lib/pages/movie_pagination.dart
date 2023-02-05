@@ -1,5 +1,6 @@
 import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
+import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
 import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -33,7 +34,7 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
             );
           break;
         case TypeMovie.top_rated:
-        context.read<MovieGetDiscoverProvider>().getPopularWithPagination(
+        context.read<MovieGetTopRatedProvider>().getTopRatedWithPagination(
             context, 
             pagingController: _pagingController, 
             page: pageKey
