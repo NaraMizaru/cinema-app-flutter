@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cinema_app/api_constants.dart';
 import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
+import 'package:cinema_app/pages/movie_pagination.dart';
 import 'package:cinema_app/widget/image_widget.dart';
+import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -48,7 +50,14 @@ class MoviePage extends StatelessWidget {
                       fontSize: 18.0
                     ),
                   ),
-                  OutlinedButton(onPressed: () {}, 
+                  OutlinedButton(onPressed: () {
+                    Navigator.push(
+                      context, 
+                      MaterialPageRoute(
+                        builder: (_) => const MoviePaginationPage(),
+                      ),
+                    );
+                  }, 
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.black,
                     shape: const StadiumBorder(),
@@ -110,7 +119,13 @@ class _WidgetCarouselMovieState extends State<WidgetCarouselMovie> {
             itemCount: provider.movies.length, 
             itemBuilder: (_, index, __) {
               final movie = provider.movies[index];
-              return ItemMovie(movie);
+              return ItemMovieWidget(
+                movie: movie, 
+                heightBackdrop: 300, 
+                widthBackdrop: double.infinity,
+                heightPoster: 200,
+                widthPoster: 100,
+              );
             }, 
             options: CarouselOptions(
               height: 300.0,
@@ -145,85 +160,4 @@ class _WidgetCarouselMovieState extends State<WidgetCarouselMovie> {
       ),
     );
   }
-}
-
-class ItemMovie extends Container {
-  
-  final MovieModel movie;
-  ItemMovie(this.movie, {super.key});
-
-  @override
-  Clip get clipBehavior => Clip.hardEdge;
-
-  @override
-  Decoration? get decoration => BoxDecoration(
-    borderRadius: BorderRadius.circular(15),
-  );
-
-  @override
-  Widget? get child => Stack(
-    children: [
-      ImageNetworkWidget(
-        imageSrc: '${movie.backdropPath}',
-        height: 300.0,
-        width: double.infinity,
-      ),
-      Container(
-        height: 300.0,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          colors: [
-            Colors.transparent,
-            Colors.black87,
-          ]),
-        ),
-      ),
-      Positioned(
-        bottom: 16.0,
-        left: 16.0,
-        right: 16.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ImageNetworkWidget(
-              imageSrc: '${movie.posterPath}',
-              height: 160,
-              width: 120,
-              radius: 15,
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Text
-              (movie.title, 
-              style: const TextStyle(
-                fontSize: 16.0 ,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(
-              height: 8,
-            ),
-            Row(
-              children: [
-                const Icon(Icons.star_rounded, color: Colors.amber,),
-                Text
-                  ('${movie.voteAverage} (${movie.voteCount})', 
-                  style: const TextStyle(
-                    fontSize: 16.0 ,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ]
-        ),
-      )
-    ],
-  );
 }
