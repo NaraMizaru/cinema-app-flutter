@@ -16,6 +16,7 @@ class MoviePage extends StatelessWidget {
 
 
     return Scaffold(
+      backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -47,7 +48,8 @@ class MoviePage extends StatelessWidget {
                     'Temukan Film',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18.0
+                      fontSize: 18.0,
+                      color: Colors.white
                     ),
                   ),
                   OutlinedButton(onPressed: () {
@@ -59,10 +61,10 @@ class MoviePage extends StatelessWidget {
                     );
                   }, 
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.black,
+                    foregroundColor: Colors.white,
                     shape: const StadiumBorder(),
                     side: const BorderSide(
-                      color: Colors.black54,
+                      color: Colors.white70,
                     )
                   ),
 
