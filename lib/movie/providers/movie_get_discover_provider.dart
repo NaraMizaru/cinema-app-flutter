@@ -52,6 +52,9 @@ class MovieGetDiscoverProvider with ChangeNotifier {
       (errorMessage) {
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(errorMessage)));
+
+        pagingController.error = errorMessage;
+
         return;
 
       }, 
@@ -66,4 +69,8 @@ class MovieGetDiscoverProvider with ChangeNotifier {
       },
     );
   }
+
+  void getPopular(BuildContext context, {required PagingController<int, MovieModel> pagingController, required int page}) {}
+
+  void getPopularWithPagination(BuildContext context, {required PagingController<int, MovieModel> pagingController, required int page}) {}
 }

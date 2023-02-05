@@ -29,5 +29,28 @@ class MovieRepositoryImpl implements MovieRepository{
     }
 
   }
+  
+  @override
+  Future<Either<String, MoviesResponseModels>> getTopRated({int page = 1}) async {
+    try {
+    final result = await _dio.get(
+      '/movie/top_rated', 
+      queryParameters: {'page': page},);
+
+    if (result.statusCode == 200 && result.data != null) {
+      final model = MoviesResponseModels.fromMap(result.data);
+      return Right(model);
+    }
+
+    return Left('Error get top rated movies');
+
+    } on DioError catch (e) {
+      if (e.response != null) {
+        return Left(e.response.toString());
+      }
+
+      return Left('another error on get top rated movies');
+    }
+  }
 
 }

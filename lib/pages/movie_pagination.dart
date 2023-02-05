@@ -5,8 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
+enum TypeMovie {discover, top_rated}
+
 class MoviePaginationPage extends StatefulWidget {
-  const MoviePaginationPage({super.key});
+  const MoviePaginationPage({super.key, required this.type});
+
+  final TypeMovie type;
 
   @override
   State<MoviePaginationPage> createState() => _MoviePaginationPageState();
@@ -19,10 +23,25 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
   @override
   void initState() {
     _pagingController.addPageRequestListener((pageKey) {
-      context.read<MovieGetDiscoverProvider>().getDiscoverWithPaging(
-        context, 
-        pagingController: _pagingController, 
-        page: pageKey);
+
+      switch (widget.type) {
+        case TypeMovie.discover:
+          context.read<MovieGetDiscoverProvider>().getDiscoverWithPaging(
+            context, 
+            pagingController: _pagingController, 
+            page: pageKey
+            );
+          break;
+        case TypeMovie.top_rated:
+        context.read<MovieGetDiscoverProvider>().getPopularWithPagination(
+            context, 
+            pagingController: _pagingController, 
+            page: pageKey
+            );
+          break;
+      }
+
+
     });
     super.initState();
   }
@@ -33,15 +52,30 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: const Text(
-          'Temukan Film',
+        title: Builder(
+          builder: (_) {
+            switch (widget.type) {
+              case TypeMovie.discover:
+                return const Text(
+                  'Temukan Film',
+                );
+              case TypeMovie.top_rated:
+                return const Text(
+                  'Film Rating Tertinggi',
+                );
+              
+            }
+
+
+            
+          }
         ),
         backgroundColor: Colors.black87,
         foregroundColor: Colors.white70,
         elevation: 0.5,
       ),
       body: PagedListView.separated(
-      padding: EdgeInsets.all(16),
+      padding: const EdgeInsets.all(16),
       pagingController: _pagingController, 
       builderDelegate: PagedChildBuilderDelegate<MovieModel>(itemBuilder: (context, item, index) => ItemMovieWidget(
         movie: item, 
@@ -50,7 +84,7 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
         heightPoster: 140, 
         widthPoster: 80
       )), 
-      separatorBuilder: (context, index) => SizedBox(height: 10,)),
+      separatorBuilder: (context, index) => const SizedBox(height: 10,)),
     );
   }
 

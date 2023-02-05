@@ -1,12 +1,16 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cinema_app/api_constants.dart';
+import 'package:cinema_app/movie/components/movie_toprated_components.dart';
 import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
+import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
 import 'package:cinema_app/pages/movie_pagination.dart';
 import 'package:cinema_app/widget/image_widget.dart';
 import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../movie/components/movie_discovery_componets.dart';
 
 class MoviePage extends StatelessWidget {
   const MoviePage({super.key});
@@ -38,128 +42,63 @@ class MoviePage extends StatelessWidget {
             backgroundColor: Colors.black87,
             foregroundColor: Colors.white70,
           ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    'Temukan Film',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
-                      color: Colors.white
-                    ),
-                  ),
-                  OutlinedButton(onPressed: () {
-                    Navigator.push(
-                      context, 
-                      MaterialPageRoute(
-                        builder: (_) => const MoviePaginationPage(),
-                      ),
-                    );
-                  }, 
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    shape: const StadiumBorder(),
-                    side: const BorderSide(
-                      color: Colors.white70,
-                    )
-                  ),
-
-                  child: Text(
-                    'Lihat Semua'
-                  ))
-                ],
-              ),
+          _WidgetTitle(title: 'Temukan Film', onPressed: () {
+            Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (_) => const MoviePaginationPage(type: TypeMovie.discover,),
             ),
-          ),
-          WidgetCarouselMovie(),
+          );
+          },),
+          const ComponentsCarouselMovie(),
+          _WidgetTitle(title: 'Film Rating Tertinggi', onPressed: () {
+            Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (_) => const MoviePaginationPage(type: TypeMovie.top_rated,),
+            ),
+          );
+          },),
+          const ComponentsTopRatedMovie(),
         ],
       )
     );
   }
 }
 
-class WidgetCarouselMovie extends StatefulWidget {
-  const WidgetCarouselMovie({super.key});
+class _WidgetTitle extends SliverToBoxAdapter {
+  final title;
+  final void Function() onPressed;
+
+  _WidgetTitle({required this.title, required this.onPressed});
 
   @override
-  State<WidgetCarouselMovie> createState() => _WidgetCarouselMovieState();
-}
+  Widget? get child => Padding(
+    padding: EdgeInsets.all(16.0),
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18.0,
+            color: Colors.white
+          ),
+        ),
+        OutlinedButton(onPressed: onPressed,
+        style: OutlinedButton.styleFrom(
+          foregroundColor: Colors.white,
+          shape: const StadiumBorder(),
+          side: const BorderSide(
+            color: Colors.white70,
+          )
+        ),
 
-class _WidgetCarouselMovieState extends State<WidgetCarouselMovie> {
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<MovieGetDiscoverProvider>().getDiscover(context);
-    });
-    super.initState();
-  }
-
-
-  @override
-  Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: Consumer<MovieGetDiscoverProvider>(
-        builder: (_, provider, __) {
-          if (provider.isLoading) {
-            return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              height: 300.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.white54,
-                borderRadius: BorderRadius.circular(12), 
-              ),
-            );
-          }
-
-          if (provider.movies.isNotEmpty) {
-            return CarouselSlider.builder(
-            itemCount: provider.movies.length, 
-            itemBuilder: (_, index, __) {
-              final movie = provider.movies[index];
-              return ItemMovieWidget(
-                movie: movie, 
-                heightBackdrop: 300, 
-                widthBackdrop: double.infinity,
-                heightPoster: 200,
-                widthPoster: 100,
-              );
-            }, 
-            options: CarouselOptions(
-              height: 300.0,
-              viewportFraction: 0.8,
-              reverse: false,
-              autoPlay: true,
-              autoPlayCurve: Curves.fastOutSlowIn,
-              enlargeCenterPage: true,
-              scrollDirection: Axis.horizontal,
-              )
-            );
-          }
-
-          return Container(
-              margin: const EdgeInsets.symmetric(horizontal: 16.0),
-              height: 300.0,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Colors.black26,
-                borderRadius: BorderRadius.circular(12), 
-              ),
-              child: const Center(
-                child: Text(
-                  'Not found discover movies',
-                  style: TextStyle(
-                    color: Colors.black45,
-                  ),
-                ),
-              ),
-            );
-        },
-      ),
-    );
-  }
+        child: Text(
+          'Lihat Semua'
+        ))
+      ],
+    ),
+  );
 }

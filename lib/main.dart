@@ -1,4 +1,5 @@
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
+import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
 import 'package:cinema_app/movie/repositories/movie_reporsitory_impl.dart';
 import 'package:cinema_app/movie/repositories/movie_repository.dart';
 import 'package:cinema_app/pages/movie_page.dart';
@@ -33,7 +34,12 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => MovieGetDiscoverProvider(movieRepository)), 
+        ChangeNotifierProvider(
+          create: (_) => MovieGetDiscoverProvider(movieRepository),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => MovieGetTopRatedProvider(movieRepository),
+        ),
       ],
 
       child: MaterialApp(
