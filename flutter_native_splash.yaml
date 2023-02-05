@@ -1,0 +1,14 @@
+flutter_native_splash:
+  color: "#ffffff"
+  image: assets/images/popcorn.png
+  color_dark: "#121212"
+  image_dark: assets/images/popcorn.png
+  branding_dark: assets/images/popcorn.png
+
+  android_12:
+    image: assets/images/popcorn.png
+    icon_background_color: "#ffffff"
+    image_dark: assets/images/popcorn.png
+    icon_background_color_dark: "#121212"
+
+  web: false
