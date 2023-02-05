@@ -110,7 +110,7 @@ class _WidgetCarouselMovieState extends State<WidgetCarouselMovie> {
               height: 300.0,
               width: double.infinity,
               decoration: BoxDecoration(
-                color: Colors.black26,
+                color: Colors.white54,
                 borderRadius: BorderRadius.circular(12), 
               ),
             );
