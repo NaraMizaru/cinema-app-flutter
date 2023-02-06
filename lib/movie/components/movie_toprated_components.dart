@@ -37,17 +37,17 @@ class _ComponentsTopRatedMovieState extends State<ComponentsTopRatedMovie> {
               );
             }
 
-            if (provider.Movies.isNotEmpty) {
+            if (provider.movies.isNotEmpty) {
               return ListView.separated(
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (_, index) {
                 return ImageNetworkWidget(
-                  imageSrc: provider.Movies[index].posterPath, 
+                  imageSrc: provider.movies[index].posterPath, 
                   height: 200, 
                   width: 120,
                   radius: 12.0,);
-              }, separatorBuilder: (_, __) => const SizedBox(width: 8.0,), itemCount: provider.Movies.length);
+              }, separatorBuilder: (_, __) => const SizedBox(width: 8.0,), itemCount: provider.movies.length);
             }
 
             return Container(

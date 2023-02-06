@@ -70,7 +70,7 @@ class MovieGetDiscoverProvider with ChangeNotifier {
     );
   }
 
-  void getPopular(BuildContext context, {required PagingController<int, MovieModel> pagingController, required int page}) {}
+  void getTopRated(BuildContext context, {required PagingController<int, MovieModel> pagingController, required int page}) {}
 
-  void getPopularWithPagination(BuildContext context, {required PagingController<int, MovieModel> pagingController, required int page}) {}
+  void getTopRatedWithPagination(BuildContext context, {required PagingController<int, MovieModel> pagingController, required int page}) {}
 }

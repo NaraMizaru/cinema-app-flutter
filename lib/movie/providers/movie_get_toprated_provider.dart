@@ -12,7 +12,7 @@ class MovieGetTopRatedProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
 
   final List<MovieModel> _movies = [];
-  List<MovieModel> get Movies => _movies;
+  List<MovieModel> get movies => _movies;
 
   void getTopRated(BuildContext context) async {
     _isLoading = true;
@@ -49,7 +49,7 @@ class MovieGetTopRatedProvider with ChangeNotifier {
       required PagingController pagingController,
     required int page,
   }) async {
-    final result = await _movieRepository.getTopRated();
+    final result = await _movieRepository.getTopRated(page: page);
 
     result.fold(
       (messageError) {
