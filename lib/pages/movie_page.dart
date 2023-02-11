@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cinema_app/api_constants.dart';
+import 'package:cinema_app/movie/components/movie_now_playing_component.dart';
 import 'package:cinema_app/movie/components/movie_toprated_components.dart';
 import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
@@ -60,6 +61,15 @@ class MoviePage extends StatelessWidget {
           );
           },),
           const ComponentsTopRatedMovie(),
+          _WidgetTitle(title: 'Film Sedang Tayang', onPressed: () {
+            Navigator.push(
+            context, 
+            MaterialPageRoute(
+              builder: (_) => const MoviePaginationPage(type: TypeMovie.now_playing,),
+            ),
+          );
+          },),
+          const MovieNowPlayingComponent()
         ],
       )
     );

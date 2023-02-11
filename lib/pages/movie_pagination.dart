@@ -1,12 +1,13 @@
 import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
+import 'package:cinema_app/movie/providers/movie_get_now_playing_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
 import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 import 'package:provider/provider.dart';
 
-enum TypeMovie {discover, top_rated}
+enum TypeMovie {discover, top_rated, now_playing}
 
 class MoviePaginationPage extends StatefulWidget {
   const MoviePaginationPage({super.key, required this.type});
@@ -34,7 +35,14 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
             );
           break;
         case TypeMovie.top_rated:
-        context.read<MovieGetTopRatedProvider>().getTopRatedWithPagination(
+        context.read<MovieGetTopRatedProvider>().getTopRatedWithPaging(
+            context, 
+            pagingController: _pagingController, 
+            page: pageKey
+            );
+          break;
+          case TypeMovie.now_playing:
+        context.read<MovieGetNowPlayingProvider>().getNowPlayingWithPaging(
             context, 
             pagingController: _pagingController, 
             page: pageKey
@@ -63,6 +71,10 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
               case TypeMovie.top_rated:
                 return const Text(
                   'Film Rating Tertinggi',
+                );
+                case TypeMovie.now_playing:
+                return const Text(
+                  'Film Sedang Tayang',
                 );
               
             }
