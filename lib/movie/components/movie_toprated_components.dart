@@ -1,4 +1,5 @@
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
+import 'package:cinema_app/pages/movie_detail_page.dart';
 import 'package:cinema_app/widget/image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class _ComponentsTopRatedMovieState extends State<ComponentsTopRatedMovie> {
                 margin: const EdgeInsets.symmetric(horizontal: 16.0),
                 decoration: BoxDecoration(
                   color: Colors.white54,
-                  borderRadius: BorderRadius.circular(12.0)
+                  borderRadius: BorderRadius.circular(12.0),
                 ),
               );
             }
@@ -46,7 +47,13 @@ class _ComponentsTopRatedMovieState extends State<ComponentsTopRatedMovie> {
                   imageSrc: provider.movies[index].posterPath, 
                   height: 200, 
                   width: 120,
-                  radius: 12.0,);
+                  radius: 12.0,
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return MovieDetailPage(id: provider.movies[index].id);
+                    }));
+                  },
+                );
               }, separatorBuilder: (_, __) => const SizedBox(width: 8.0,), itemCount: provider.movies.length);
             }
 

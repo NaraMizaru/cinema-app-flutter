@@ -71,7 +71,12 @@ class MoviePage extends StatelessWidget {
             ),
           );
           },),
-          const MovieNowPlayingComponent()
+          const MovieNowPlayingComponent(),
+          const SliverToBoxAdapter(
+            child: SizedBox(
+              height: 20,
+            ),
+          )
         ],
       )
     );
@@ -86,7 +91,7 @@ class _WidgetTitle extends SliverToBoxAdapter {
 
   @override
   Widget? get child => Padding(
-    padding: EdgeInsets.all(16.0),
+    padding: const EdgeInsets.all(16.0),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -107,7 +112,7 @@ class _WidgetTitle extends SliverToBoxAdapter {
           )
         ),
 
-        child: Text(
+        child: const Text(
           'Lihat Semua'
         ))
       ],

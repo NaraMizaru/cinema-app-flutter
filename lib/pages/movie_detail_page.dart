@@ -1,9 +1,12 @@
 import 'package:cinema_app/injector.dart';
 import 'package:cinema_app/movie/providers/movie_get_detail_provider.dart';
+import 'package:cinema_app/movie/providers/movie_get_video_provider.dart';
+import 'package:cinema_app/widget/image_widget.dart';
 import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailPage extends StatelessWidget {
   const MovieDetailPage({super.key, required this.id});
@@ -12,16 +15,51 @@ class MovieDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(create: (_) => sL<MovieGetDetailProvider>()..getDetail(context, id: id),
-    builder: (_, __) =>  Scaffold(
+    return MultiProvider(
+      providers:  [
+        ChangeNotifierProvider(
+          create: (_) => sL<MovieGetDetailProvider>()..getDetail(context, id: id),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => sL<MovieGetVideoProvider>()..getVideos(context, id: id),
+        ),
+      ],
+      builder: (_, __) => Scaffold(
         body: CustomScrollView(
           slivers: [
             _WidgetAppBar(context),
+            Consumer<MovieGetVideoProvider>(
+              builder: (_, provider, ___) {
+                final videos = provider.videos;
+                if (videos != null) {
+                  return SliverToBoxAdapter(
+                    child: SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                        itemBuilder: (_, index) {
+                          final vidio = videos.results[index];
+                          return ImageNetworkWidget(
+                            type: TypeSrcImg.external,
+                            imageSrc: YoutubePlayer.getThumbnail(videoId: vidio.key),
+                          );
+                        }, 
+                        separatorBuilder: (_, __) => SizedBox(), 
+                        itemCount: videos.results.length
+                      ),
+                    ),
+                  );
+                }
+                return const SliverToBoxAdapter();
+              },
+            ),
             _WidgetSummary(),
           ],
         ),
       ),
     );
+
+
+    
   }
 }
 
@@ -38,7 +76,7 @@ class _WidgetAppBar extends SliverAppBar {
 
   @override
   Widget? get leading =>  Padding(
-    padding: EdgeInsets.all(8.0),
+    padding: const EdgeInsets.all(8.0),
     child: CircleAvatar(
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
@@ -46,7 +84,7 @@ class _WidgetAppBar extends SliverAppBar {
         onPressed: () {
           Navigator.pop(context);
         }, 
-        icon: Icon(
+        icon: const Icon(
           Icons.arrow_back
         ),
       ),
@@ -55,19 +93,18 @@ class _WidgetAppBar extends SliverAppBar {
 
   @override
   List<Widget>? get actions => [
-      Padding(
-      padding: EdgeInsets.all(8.0),
-      child: CircleAvatar(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
-        child: IconButton(
-          onPressed: () {}, 
-          icon: Icon(
-            Icons.public
-          ),
-        ),
-      ),
-    )
+      Consumer<MovieGetDetailProvider>(
+      builder: (__, provider, ___) {
+        final movie = provider.movie;
+        
+        if (movie != null) {
+          return const Padding(
+            padding: EdgeInsets.all(8.0),
+          );
+        }
+        return const SizedBox();
+      },
+    ),
   ];
 
   @override
@@ -120,7 +157,7 @@ class _WidgetSummary extends SliverToBoxAdapter {
   TableRow _tableContent({ required String title, required String content }) => TableRow(
     children: [
       Padding(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         child: Text(
           title,
           style: const TextStyle(

@@ -2,6 +2,7 @@ import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_now_playing_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
+import 'package:cinema_app/pages/movie_detail_page.dart';
 import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
@@ -95,7 +96,12 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
         heightBackdrop: 260, 
         widthBackdrop: double.infinity, 
         heightPoster: 140, 
-        widthPoster: 80
+        widthPoster: 80,
+        onTap: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) {
+            return MovieDetailPage(id: item.id);
+          }));
+        },
       )), 
       separatorBuilder: (context, index) => const SizedBox(height: 10,)),
     );

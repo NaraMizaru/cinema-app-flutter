@@ -1,4 +1,5 @@
 import 'package:cinema_app/movie/models/movie_detail_model.dart';
+import 'package:cinema_app/movie/models/movie_video_model.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:cinema_app/movie/models/movie_models.dart';
@@ -24,7 +25,7 @@ class MovieRepositoryImpl implements MovieRepository{
       if (e.response != null) {
       return left(e.response.toString());
       }
-      return Left('Another error on get discover movies');
+      return const Left('Another error on get discover movies');
 
       throw e.toString();
     }
@@ -43,14 +44,14 @@ class MovieRepositoryImpl implements MovieRepository{
       return Right(model);
     }
 
-    return Left('Error get top rated movies');
+    return const Left('Error get top rated movies');
 
     } on DioError catch (e) {
       if (e.response != null) {
         return Left(e.response.toString());
       }
 
-      return Left('another error on get top rated movies');
+      return const Left('another error on get top rated movies');
     }
   }
   
@@ -68,14 +69,14 @@ class MovieRepositoryImpl implements MovieRepository{
       return Right(model);
     }
 
-    return Left('Error get now playing movies');
+    return const Left('Error get now playing movies');
 
     } on DioError catch (e) {
       if (e.response != null) {
         return Left(e.response.toString());
       }
 
-      return Left('another error on get now playing movies');
+      return const Left('another error on get now playing movies');
     }
   }
 
@@ -92,14 +93,38 @@ class MovieRepositoryImpl implements MovieRepository{
       return Right(model);
     }
 
-    return Left('Error get detail movies');
+    return const Left('Error get detail movies');
 
     } on DioError catch (e) {
       if (e.response != null) {
         return Left(e.response.toString());
       }
 
-      return Left('another error on get detail movies');
+      return const Left('another error on get detail movies');
+    }
+  }
+
+  @override
+  Future<Either<String, MovieVideoModel>> getVideos({required int id}) async {
+    try {
+      final result = await _dio.get(
+        '/movie/$id/videos'
+      );
+
+      
+    if (result.statusCode == 200 && result.data != null) {
+      final model = MovieVideoModel.fromMap(result.data);
+      return Right(model);
+    }
+
+    return const Left('Error get video movies');
+
+    } on DioError catch (e) {
+      if (e.response != null) {
+        return Left(e.response.toString());
+      }
+
+      return const Left('another error on get video movies');
     }
   }
 }

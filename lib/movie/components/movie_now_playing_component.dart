@@ -1,4 +1,5 @@
 import 'package:cinema_app/movie/providers/movie_get_now_playing_provider.dart';
+import 'package:cinema_app/pages/movie_detail_page.dart';
 import 'package:cinema_app/widget/image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -44,65 +45,81 @@ class _MovieNowPlayingComponentState extends State<MovieNowPlayingComponent> {
                 itemBuilder: (_, index) {
                 final movie = provider.movies[index];
 
-                return Container(
-                  padding: const EdgeInsets.all(8.0),
-                  width: MediaQuery.of(context).size.width * 0.8,
-                  height: 200,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      
-                    colors: [
-                      Colors.transparent,
-                      Colors.white12
-                    ]),
-                    borderRadius: BorderRadius.circular(12.0)
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      ImageNetworkWidget(
-                        imageSrc: movie.posterPath, 
-                        height: 200, 
-                        width: 120,
-                        radius: 12.0,
+                return Stack(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(8.0),
+                      width: MediaQuery.of(context).size.width * 0.8,
+                      height: 200,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          
+                        colors: [
+                          Colors.transparent,
+                          Colors.white12
+                        ]),
+                        borderRadius: BorderRadius.circular(12.0)
                       ),
-                      const SizedBox(width: 8.0,),
-                      Flexible(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(movie.title, style: const TextStyle(
-                              fontSize: 16.0,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            )),
-                            Row(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ImageNetworkWidget(
+                            imageSrc: movie.posterPath, 
+                            height: 200, 
+                            width: 120,
+                            radius: 12.0,
+                          ),
+                          const SizedBox(width: 8.0,),
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                const Icon(Icons.star_rounded, color: Colors.amber,),
-                                Text
-                                  ('${movie.voteAverage} (${movie.voteCount})', 
+                                Text(movie.title, style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                )),
+                                Row(
+                                  children: [
+                                    const Icon(Icons.star_rounded, color: Colors.amber,),
+                                    Text
+                                      ('${movie.voteAverage} (${movie.voteCount})', 
+                                      style: const TextStyle(
+                                        fontSize: 16.0,
+                                        color: Colors.white
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                Text(
+                                  movie.overview, 
+                                  maxLines: 3,
                                   style: const TextStyle(
-                                    fontSize: 16.0,
+                                    fontStyle: FontStyle.italic,
+                                    fontWeight: FontWeight.w400,
                                     color: Colors.white
-                                  ),
+                                  )
                                 ),
                               ],
                             ),
-                            Text(
-                              movie.overview, 
-                              maxLines: 3,
-                              style: const TextStyle(
-                                fontStyle: FontStyle.italic,
-                                fontWeight: FontWeight.w400,
-                                color: Colors.white
-                              )
-                            ),
-                          ],
+                          )
+                        ],
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: Material(
+                        color: Colors.transparent,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(context, MaterialPageRoute(builder: (_) {
+                              return MovieDetailPage(id: movie.id);
+                            }));
+                          },
                         ),
                       )
-                    ],
-                  ),
+                    )
+                  ],
                 );
               }, separatorBuilder: (_, __) => const SizedBox(width: 8.0,), itemCount: provider.movies.length);
             }
