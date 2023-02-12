@@ -36,7 +36,7 @@ class MoviePage extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  'Popcorn Movie'
+                  'Zola Movie'
                 ),
               ],
             ),

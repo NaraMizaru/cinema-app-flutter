@@ -46,7 +46,7 @@ class App extends StatelessWidget {
       ],
 
       child: MaterialApp(
-        title: 'Popcorn Cinema',
+        title: 'Zola Movie',
         theme: ThemeData.dark(
 ),
         home: const MoviePage(),
