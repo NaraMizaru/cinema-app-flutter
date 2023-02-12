@@ -1,3 +1,4 @@
+import 'package:cinema_app/injector.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_now_playing_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
@@ -13,22 +14,16 @@ import 'package:cinema_app/api_constants.dart';
 void main() {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
-  
-  final dioOptions = BaseOptions(
-    baseUrl: ApiConstant.baseUrl,
-    queryParameters: {'api_key': ApiConstant.apiKey},
-  );
-  final Dio dio = Dio(dioOptions);
-  final MovieRepository movieRepository = MovieRepositoryImpl(dio);
 
-  runApp(App(movieRepository: movieRepository));
+  setup();
+
+  runApp(const App());
   FlutterNativeSplash.remove();
 }
 
 class App extends StatelessWidget {
-  const App({super.key, required this.movieRepository});
+  const App({super.key});
 
-  final MovieRepository movieRepository;
 
   // This widget is the root of your application.
   @override
@@ -36,13 +31,13 @@ class App extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-          create: (_) => MovieGetDiscoverProvider(movieRepository),
+          create: (_) => sL<MovieGetDiscoverProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => MovieGetTopRatedProvider(movieRepository),
+          create: (_) => sL<MovieGetTopRatedProvider>(),
         ),
         ChangeNotifierProvider(
-          create: (_) => MovieGetNowPlayingProvider(movieRepository),
+          create: (_) => sL<MovieGetNowPlayingProvider>(),
         ),
       ],
 

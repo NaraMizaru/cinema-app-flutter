@@ -40,6 +40,8 @@ class MoviePage extends StatelessWidget {
                 ),
               ],
             ),
+            floating: true,
+            snap: true,
             backgroundColor: Colors.black87,
             foregroundColor: Colors.white70,
           ),

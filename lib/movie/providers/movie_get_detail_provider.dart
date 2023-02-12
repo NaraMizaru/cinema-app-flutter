@@ -8,7 +8,7 @@ class MovieGetDetailProvider with ChangeNotifier {
   MovieGetDetailProvider(this._movieRepository);
 
   MovieDetailModel? _movie;
-  MovieDetailModel get movie => movie;
+  MovieDetailModel? get movie => _movie;
 
   void getDetail(BuildContext context, {required int id}) async {
     _movie = null;

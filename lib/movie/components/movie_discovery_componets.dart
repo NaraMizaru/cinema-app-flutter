@@ -1,5 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
+import 'package:cinema_app/pages/movie_detail_page.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -50,6 +51,11 @@ class _ComponentsCarouselMovieState extends State<ComponentsCarouselMovie> {
                 widthBackdrop: double.infinity,
                 heightPoster: 200,
                 widthPoster: 100,
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (_) {
+                    return MovieDetailPage(id: movie.id);
+                  }));
+                },
               );
             }, 
             options: CarouselOptions(
