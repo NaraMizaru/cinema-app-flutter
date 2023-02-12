@@ -60,7 +60,6 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Builder(
           builder: (_) {
@@ -79,13 +78,8 @@ class _MoviePaginationPageState extends State<MoviePaginationPage> {
                 );
               
             }
-
-
-            
           }
         ),
-        backgroundColor: Colors.black87,
-        foregroundColor: Colors.white70,
         elevation: 0.5,
       ),
       body: PagedListView.separated(

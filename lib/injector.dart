@@ -4,6 +4,7 @@ import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_now_playing_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_video_provider.dart';
+import 'package:cinema_app/movie/providers/movie_search_provider.dart';
 import 'package:cinema_app/movie/repositories/movie_reporsitory_impl.dart';
 import 'package:cinema_app/movie/repositories/movie_repository.dart';
 import 'package:dio/dio.dart';
@@ -28,6 +29,9 @@ void setup() {
   );
   sL.registerFactory<MovieGetVideoProvider>(
     () => MovieGetVideoProvider(sL()),
+  );
+  sL.registerFactory<MovieSearchProvider>(
+    () => MovieSearchProvider(sL()),
   );
 
   

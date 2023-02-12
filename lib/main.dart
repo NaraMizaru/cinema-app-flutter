@@ -2,6 +2,7 @@ import 'package:cinema_app/injector.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_now_playing_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
+import 'package:cinema_app/movie/providers/movie_search_provider.dart';
 import 'package:cinema_app/movie/repositories/movie_reporsitory_impl.dart';
 import 'package:cinema_app/movie/repositories/movie_repository.dart';
 import 'package:cinema_app/pages/movie_page.dart';
@@ -39,13 +40,15 @@ class App extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => sL<MovieGetNowPlayingProvider>(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => sL<MovieSearchProvider>(),
+        ),
       ],
 
       child: MaterialApp(
         title: 'Popcorn Cinema',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData.dark(
+),
         home: const MoviePage(),
         debugShowCheckedModeBanner: false,
       ),

@@ -224,8 +224,8 @@ class _WidgetSummary extends SliverToBoxAdapter {
                     1: FlexColumnWidth(2),
                   },
                   border: TableBorder.all(
-                    color: Colors.black12,
-                    borderRadius: BorderRadius.circular(8.0)
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(8.0),
                   ),
                   children: [
                     _tableContent(

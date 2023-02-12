@@ -127,4 +127,32 @@ class MovieRepositoryImpl implements MovieRepository{
       return const Left('another error on get video movies');
     }
   }
+  
+  @override
+  Future<Either<String, MoviesResponseModels>> searchMovies({
+    required String query,
+  }) async {
+    try {
+      final result = await _dio.get(
+        '/search/movie',
+        queryParameters: {"query" : query}
+      );
+
+      
+    if (result.statusCode == 200 && result.data != null) {
+      final model = MoviesResponseModels.fromMap(result.data);
+      return Right(model);
+    }
+
+    return const Left('Error search movies');
+
+    } on DioError catch (e) {
+      if (e.response != null) {
+        return Left(e.response.toString());
+      }
+
+      return const Left('another error on search movies');
+    }
+  
+  }
 }

@@ -6,6 +6,7 @@ import 'package:cinema_app/movie/models/movie_models.dart';
 import 'package:cinema_app/movie/providers/movie_get_discover_provider.dart';
 import 'package:cinema_app/movie/providers/movie_get_toprated_provider.dart';
 import 'package:cinema_app/pages/movie_pagination.dart';
+import 'package:cinema_app/pages/movie_search_page.dart';
 import 'package:cinema_app/widget/image_widget.dart';
 import 'package:cinema_app/widget/item_movie_widget.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,6 @@ class MoviePage extends StatelessWidget {
 
 
     return Scaffold(
-      backgroundColor: Colors.black,
       body: CustomScrollView(
         slivers: [
           SliverAppBar(
@@ -40,10 +40,17 @@ class MoviePage extends StatelessWidget {
                 ),
               ],
             ),
+            actions: [
+              IconButton(
+                onPressed: () => showSearch(
+                    context: context, 
+                    delegate: MovieSearchPage()
+                  ), 
+                icon: const Icon(Icons.search)
+              )
+            ],
             floating: true,
             snap: true,
-            backgroundColor: Colors.black87,
-            foregroundColor: Colors.white70,
           ),
           _WidgetTitle(title: 'Temukan Film', onPressed: () {
             Navigator.push(
